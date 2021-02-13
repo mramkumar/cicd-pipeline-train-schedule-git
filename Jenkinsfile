@@ -2,6 +2,7 @@ pipeline {
   environment {
     registry = "mramkumar/train-schedule"
     registryCredential = 'docker-login'
+    dockerHost  = 'docker'
     dockerImage = ''
   }
 agent any
@@ -63,6 +64,20 @@ stages {
 	}
 	
     }
+   stage('Deploy to Production') {
+	steps {
+		script {
+			docker.withRegistry( '', registryCredential ) {
+				docker.image(registry + ":$BUILD_NUMBER").withRun('-p 3000:3000 --name train-schedule'){ c ->
+					sh "docker logs ${c.id}"
+				}
+	
+			}				
+
+			
+		}
+
+	}
 
 }
 }
