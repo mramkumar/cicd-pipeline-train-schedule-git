@@ -1,0 +1,11 @@
+[Unit]
+Description=Train Schedule Service
+
+[Service]
+WorkingDirectory=/opt/train-schedule
+ExecStart=/usr/bin/npm start app.js > /dev/null 2>&1 &
+ExecStop=/usr/bin/npm stop app.js
+
+[Install]
+WantedBy=multi-user.target
+
