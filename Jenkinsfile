@@ -1,7 +1,7 @@
 pipeline {
   environment {
     registry = "mramkumar/train-schedule"
-    registryCredential = 'password-0335'
+    registryCredential = 'docker-login'
     dockerImage = ''
   }
 agent any
