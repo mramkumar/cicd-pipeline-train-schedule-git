@@ -43,7 +43,7 @@ stages {
    stage('Building image') {
       steps{
       	node('docker')
-	cd /tmp/train-schedule
+	sh -c 'cd /tmp/train-schedule'
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
