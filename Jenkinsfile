@@ -84,7 +84,7 @@ stages {
 
    stage('Deploy to Production') {
 	steps {
-		kubernetesDeploy {
+		KubernetesDeploy {
 			kubeconfigId: 'kube-config',
 			configs:  'train-schedule.yml',
 			enableConfigSubstitution: true
