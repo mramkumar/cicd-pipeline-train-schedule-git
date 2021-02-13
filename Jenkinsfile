@@ -84,7 +84,6 @@ stages {
 
    stage('Deploy to Production') {
 	steps {
-		script {
 /*
 		node('docker') {
 		script {
@@ -102,7 +101,6 @@ stages {
 			configs:  'train-schedule.yml',
 			enableConfigSubstitution: true
 		}
-	}
 	}
 
 }
