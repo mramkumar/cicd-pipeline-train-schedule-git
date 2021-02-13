@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: train-schedule-app
+  name: train-schedule
 spec:
   replicas: 2
   selector:
@@ -16,7 +16,7 @@ spec:
       - name: traine-schedule
         image:  $registry:$BUILD_NUMBER
         ports:
-        - name: train-schedule-port
+        - name: train-port
           containerPort: 3000
 
 ---
@@ -27,7 +27,7 @@ metadata:
 spec:
   ports:
   - port: 3000
-    targetPort: train-schedule-port
+    targetPort: train-port
     nodePort: 32000
     protocol: TCP
   selector:
