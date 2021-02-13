@@ -84,6 +84,7 @@ stages {
 
    stage('Deploy to Production') {
 	steps {
+		script {
 #		node('docker') {
 #		script {
 #			docker.withRegistry( '', registryCredential ) {
@@ -99,7 +100,7 @@ stages {
 			configs:  'train-schedule.yml',
 			enableConfigSubstitution: true
 		}
-
+	}
 	}
 
 }
