@@ -69,7 +69,6 @@ stages {
 		script {
 			docker.withRegistry( '', registryCredential ) {
 				docker.image(registry + ":$BUILD_NUMBER").withRun('-p 3000:3000 --name train-schedule'){ c ->
-					sh "docker logs ${c.id}"
 				}
 	
 			}				
