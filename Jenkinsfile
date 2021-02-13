@@ -76,8 +76,7 @@ stages {
    stage('Remove existing Container from Production') {
 		steps{
 			node('docker') {
-				sh 'docker stop train-schedule'
-				sh 'docker rm train-schedule'
+				sh 'docker stop train-schedule || true && docker rm train-schedule|| true'
 			}
 		}
 
