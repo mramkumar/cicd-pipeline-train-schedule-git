@@ -1,4 +1,9 @@
 pipeline {
+  environment {
+    registry = "mramkumar/train-schedule"
+    registryCredential = 'password-0335'
+    dockerImage = ''
+  }
 agent any
 stages {
     stage('Build') {
@@ -8,7 +13,7 @@ stages {
             archiveArtifacts artifacts: 'dist/trainSchedule.zip'
         }
     }
-    stage('DeployToStaging') {
+    stage('Copy Build') {
         steps {
             withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                 sshPublisher(
@@ -26,7 +31,7 @@ stages {
                                     sourceFiles: 'dist/trainSchedule.zip',
                                     removePrefix: 'dist/',
                                     remoteDirectory: '/tmp',
-                                    execCommand: 'sudo /usr/bin/systemctl stop train-schedule && rm -rf /opt/train-schedule/* && unzip /tmp/trainSchedule.zip -d /opt/train-schedule && sudo /usr/bin/systemctl start train-schedule'
+                                    execCommand: 'rm -rf /tmp/train-schedule || mkdir /tmp/train-schedule || unzip -d /tmp/trainSchedule.zip -d /tmp/train-schedule'
                                 )
                             ]
                         )
@@ -35,6 +40,26 @@ stages {
             }
         }
     }
+   stage('Building image') {
+      steps{
+      	node('docker')
+	cd /tmp/train-schedule
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Push Image') {
+      steps{
+	node('docker')
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+
 }
 }
 
