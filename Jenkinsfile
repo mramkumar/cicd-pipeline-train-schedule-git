@@ -31,7 +31,7 @@ stages {
                                     sourceFiles: 'dist/trainSchedule.zip',
                                     removePrefix: 'dist/',
                                     remoteDirectory: '/tmp',
-                                    execCommand: 'rm -rf /tmp/train-schedule || mkdir /tmp/train-schedule || unzip -d /tmp/trainSchedule.zip -d /tmp/train-schedule'
+                                    execCommand: 'rm -rf /tmp/train-schedule && mkdir /tmp/train-schedule && unzip /tmp/trainSchedule.zip -d /tmp/train-schedule'
                                 )
                             ]
                         )
