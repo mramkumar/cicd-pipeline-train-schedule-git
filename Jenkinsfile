@@ -42,22 +42,25 @@ stages {
     }
    stage('Building image') {
       steps{
-      	node('docker')
+      	node('docker') {
 		sh -c 'cd /tmp/train-schedule'
 	        script {
         	  dockerImage = docker.build registry + ":$BUILD_NUMBER"
 	        }
+	}
       }
     }
     stage('Push Image') {
       steps{
-	node('docker')
+	node('docker') {
      	   script {
         	  docker.withRegistry( '', registryCredential ) {
 	            dockerImage.push()
         	  }
 	        }
-      }
+      	   }
+	}
+	
     }
 
 }
