@@ -84,15 +84,20 @@ stages {
 
    stage('Deploy to Production') {
 	steps {
-		node('docker') {
-		script {
-			docker.withRegistry( '', registryCredential ) {
-				docker.image(registry + ":$BUILD_NUMBER").run("-p 3000:3000 --name=train-schedule")
-				
-			}				
+#		node('docker') {
+#		script {
+#			docker.withRegistry( '', registryCredential ) {
+#				docker.image(registry + ":$BUILD_NUMBER").run("-p 3000:3000 --name=train-schedule")
+#				
+#			}				
 
 			
-		}
+#		}
+#	}
+		kubernetesDeploy {
+			kubeconfigId: 'kube-config',
+			configs:  'train-schedule.yml',
+			enableConfigSubstitution: true
 		}
 
 	}
