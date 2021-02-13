@@ -66,6 +66,7 @@ stages {
     }
    stage('Deploy to Production') {
 	steps {
+		node('docker') {
 		script {
 			docker.withRegistry( '', registryCredential ) {
 				docker.image(registry + ":$BUILD_NUMBER").withRun('-p 3000:3000 --name train-schedule'){ c ->
@@ -74,6 +75,7 @@ stages {
 			}				
 
 			
+		}
 		}
 
 	}
