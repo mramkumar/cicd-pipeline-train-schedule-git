@@ -64,7 +64,28 @@ stages {
 	}
 	
     }
-   stage('Deploy to Production') {
+    stage('Removed unused Image') {	
+	node('docker') {
+		steps {
+
+			sh "docker rmi $registry:$BUILD_NUMBER"
+		}
+
+	}
+
+
+   }
+
+   stage('Remove existing Container from Production') {
+	node('docker') {
+		steps{
+			sh 'docker stop train-schedule'
+			sh 'docker rm train-schedule'
+		}
+	}
+
+   } 
+    stage('Deploy to Production') {
 	steps {
 		node('docker') {
 		script {
